@@ -1,0 +1,52 @@
+body {
+  font-family: "Open Sans", arial, sans-serif;
+}
+
+.header {
+  border-top: 5px solid #40babd;
+  background: #494d55;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 60px 0;
+}
+
+.text-small {
+  font-size: 13px;
+}
+.tagline {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.rss-icon {
+  color: #ee802f;
+}
+
+.search-form {
+  position: relative;
+}
+
+.search-form .search-input {
+  font-size: 14px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  border-radius: 20px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding-top: 4px;
+  height: 40px;
+}
+
+@media (min-width: 576px) {
+  .main-search-box .search-form .search-input {
+    width: 400px;
+  }
+}
+
+@media (min-width: 768px) {
+  .main-search-box .search-form .search-input {
+    width: 560px;
+  }
+}
