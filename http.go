@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/antchfx/goreadly"
 	"github.com/antchfx/htmlquery"
@@ -17,6 +18,10 @@ import (
 	"golang.org/x/net/html/charset"
 )
 
+var httpClient = &http.Client{
+	Timeout: time.Second * 45,
+}
+
 func httpGet(url string) (*http.Response, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -24,7 +29,7 @@ func httpGet(url string) (*http.Response, error) {
 	}
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36")
 	// bug has fixed： https://github.com/golang/go/issues/18779
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
