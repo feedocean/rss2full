@@ -5,4 +5,9 @@ Rss2Full是免费，跨平台的RSS全文输出开源项目，它能将摘要RSS
 
 Developed & Maintained by [FeedOcean](https://feedocean.com)
 
+Installing
+===
+
+
+
 

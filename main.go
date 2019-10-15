@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"net"
 	"net/http"
 	"os"
@@ -24,6 +23,7 @@ func (p *program) Init(env svc.Environment) error {
 }
 
 func (p *program) Start() error {
+	logrus.Infof("version: %s", appVersion)
 	localAddr := flag.String("bind", ":8088", "host:port")
 	flag.Parse()
 	listener, err := net.Listen("tcp", *localAddr)
@@ -48,7 +48,7 @@ func (p *program) Start() error {
 		listener.Close()
 		logrus.Info("exit")
 	}()
-	logrus.Infof("listening on %v \n", *localAddr)
+	logrus.Infof("listening on %s \n", listener.Addr())
 	return nil
 }
 
@@ -58,12 +58,7 @@ func (p *program) Stop() error {
 }
 
 func main() {
-	f, err := os.OpenFile("app.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to initialize log file %s", err)
-		os.Exit(1)
-	}
-	logrus.SetOutput(f)
+	logrus.SetOutput(os.Stdout)
 	prg := &program{
 		quit: make(chan struct{}),
 	}
