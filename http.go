@@ -99,17 +99,20 @@ func FullRss(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		return
 	}
 	if len(feed.Items) > 0 {
+		if len(feed.Items) > 10 {
+			feed.Items = feed.Items[:10]
+		}
 		var wg sync.WaitGroup
 		c := make(chan struct{})
 		// create 2 worker to work.
-		var queue = make(chan *syndfeed.Item, 2)
+		var queue = make(chan *syndfeed.Item, 1)
 		for n := 0; n < 2; n++ {
 			go func() {
 				for {
 					select {
 					case item := <-queue:
 						link := item.Links[0].URL
-						logrus.Debugf("full-text: %s", link)
+						logrus.Debugf("%s", link)
 						if err := fulltext(item, link); err != nil {
 							wg.Done()
 							logrus.Warnf("GET %s failed. %s", link, err)
@@ -132,7 +135,7 @@ func FullRss(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	}
 	// outout RSS 2.0
 	w.Header().Set("Content-Type", "application/xml")
-	outputRss20(w, feed)
+	outputRss20(w.(io.StringWriter), feed)
 }
 
 func fulltext(item *syndfeed.Item, link string) error {
@@ -151,8 +154,4 @@ func fulltext(item *syndfeed.Item, link string) error {
 	}
 	item.Content = doc.Body
 	return nil
-}
-
-func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
 }
