@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strconv"
 	"syscall"
 
 	"github.com/judwhite/go-svc/svc"
@@ -23,10 +24,13 @@ func (p *program) Init(env svc.Environment) error {
 }
 
 func (p *program) Start() error {
-	logrus.Infof("version: %s", appVersion)
-	localAddr := flag.String("bind", ":8088", "host:port")
+	var (
+		aAddr = flag.String("a", "", "Bind address")
+		aPort = flag.Int("p", 8088, "Port to listen")
+	)
 	flag.Parse()
-	listener, err := net.Listen("tcp", *localAddr)
+	addr := *aAddr + ":" + strconv.Itoa(*aPort)
+	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err
 	}
@@ -48,7 +52,8 @@ func (p *program) Start() error {
 		listener.Close()
 		logrus.Info("exit")
 	}()
-	logrus.Infof("listening on %s \n", listener.Addr())
+	logrus.Infof("version: %s", appVersion)
+	logrus.Infof("listen on %s \n", addr)
 	return nil
 }
 
