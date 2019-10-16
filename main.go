@@ -13,7 +13,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var appVersion = "0.1"
+var appVersion = "0.1.1"
 
 type program struct {
 	quit chan struct{}
