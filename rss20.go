@@ -58,7 +58,7 @@ func outputRss20(sw io.StringWriter, feed *syndfeed.Feed) {
 		}
 		// pubDate
 		if !item.PublishDate.IsZero() {
-			sw.WriteString("<pubDate>" + feed.LastUpdatedTime.Format("Mon, 02 Jan 2006 15:04:05 GMT") + "</pubDate>")
+			sw.WriteString("<pubDate>" + item.PublishDate.Format("Mon, 02 Jan 2006 15:04:05 GMT") + "</pubDate>")
 		}
 		sw.WriteString("</item>")
 	}
