@@ -38,6 +38,12 @@ RSS feeds for test full-text:
 
 [Free Download](https://github.com/feedocean/rss2full/releases)
 
+### Docker
+
+```
+docker run -d -p 8088:8088 --name rss2full feedocean/rss2full
+```
+
 ## Usage
 
 Open a web-browser, visit `http://127.0.0.1:8080/`(replacing with your IP address)
