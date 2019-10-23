@@ -16,10 +16,17 @@ RUN cd /go/src/rss2full && go build
 
 FROM alpine
 MAINTAINER feedocean.com
-WORKDIR /root
-COPY --from=builder /go/src/rss2full/wwwroot /root/wwwroot
-COPY --from=builder /go/src/rss2full/rss2full /root/rss2full
+
+RUN apk update && apk --no-cache add ca-certificates && rm -rf /var/cache/apk/*
+
+WORKDIR /app
+COPY --from=builder /go/src/rss2full/wwwroot /app/wwwroot
+COPY --from=builder /go/src/rss2full/rss2full /app/rss2full
 
 # Server port to listen
-EXPOSE 8088
-CMD ["/root/rss2full"]
+ENV PORT 8088
+
+ENTRYPOINT ["/app/rss2full"]
+
+EXPOSE ${PORT}
+CMD [""]
