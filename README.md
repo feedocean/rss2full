@@ -3,7 +3,6 @@ RSS2Full
 
 RSS2Full is a free and cross-platform full text RSS hosting service. Automatic transform summary-only RSS feeds into full-text RSS feeds. Read articles in full, in peace, in your favourite news reading application.
 
-Notes: current v0.1 allows max items of each feed is 10.
 
 ## Features 
 
@@ -14,12 +13,19 @@ Notes: current v0.1 allows max items of each feed is 10.
 ## Command-line usage
 
 ```
+rss2full  [options...]
+
 Usage:
-  rss2full  [options...]
+  rss2full -p 80
+  rss2full -h
 
 Options:
-  -a <addr>                 Bind address [default: *]
-  -p <port>                 Bind port [default: 8088]
+  -a <addr>                   Bind address [default: *]
+  -p <port>                   Bind port [default: 8088]
+  -h, -help                   Show help
+  -v, -version                Show version
+  -item-count <num>           Define number of news in feed [default: 10]
+  -connection-per-feed <num>  Define number of parallel connections(workers) per feed [default:2]
 ```
 
 Start the server in a custom port:

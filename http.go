@@ -55,10 +55,6 @@ func (r *responseReader) Close() error {
 	return r.rc.Close()
 }
 
-func Version(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	w.Write([]byte(appVersion))
-}
-
 func FullRss(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	source := strings.TrimLeft(p.ByName("feed"), "/")
 	if source == "" || !(strings.HasPrefix(source, "http://") || strings.HasPrefix(source, "https://")) {
@@ -99,14 +95,14 @@ func FullRss(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		return
 	}
 	if len(feed.Items) > 0 {
-		if len(feed.Items) > 10 {
-			feed.Items = feed.Items[:10]
+		if len(feed.Items) > *aItemCount {
+			feed.Items = feed.Items[:*aItemCount]
 		}
 		var wg sync.WaitGroup
 		c := make(chan struct{})
 		// create 2 worker to work.
 		var queue = make(chan *syndfeed.Item, 1)
-		for n := 0; n < 2; n++ {
+		for n := 0; n < *aConnectionPerFeed; n++ {
 			go func() {
 				for {
 					select {
