@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	Version = "0.2.0"
+	Version = "0.2.1"
 
 	aAddr              = flag.String("a", "", "Bind address")
 	aPort              = flag.Int("p", 8088, "Port to listen")
