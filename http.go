@@ -5,6 +5,7 @@ import (
 	"io"
 	"mime"
 	"net/http"
+	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -55,8 +56,11 @@ func (r *responseReader) Close() error {
 	return r.rc.Close()
 }
 
-func FullRss(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	source := strings.TrimLeft(p.ByName("feed"), "/")
+func FullRss(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	// skip a /feed/ segment.
+	source := r.URL.String()[6:]
+	// decode
+	source, _ = url.QueryUnescape(source)
 	if source == "" || !(strings.HasPrefix(source, "http://") || strings.HasPrefix(source, "https://")) {
 		w.WriteHeader(400)
 		w.Write([]byte(fmt.Sprintf("Invalid source feed(%s)", source)))
